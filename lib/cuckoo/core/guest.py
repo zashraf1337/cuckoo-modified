@@ -66,6 +66,8 @@ class GuestManager:
                 if self.server.get_status() == status:
                     log.debug("%s: status ready", self.id)
                     break
+                else:
+                    log.debug("status :0x%.04x", status)
             except:
                 pass
 

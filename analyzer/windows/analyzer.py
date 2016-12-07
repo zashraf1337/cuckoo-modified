@@ -752,6 +752,10 @@ class Analyzer:
         while proc.NextEntryOffset:
             p.value += proc.NextEntryOffset
             proc = cast(p, POINTER(SYSTEM_PROCESS_INFORMATION)).contents
+            #log.warning(proc)
+            #log.warning(proc.ImageName.Length)
+            #log.warning(proc.ImageName)
+            #log.warning(proc.UniqueProcessId)
             proclist.append((proc.ImageName.Buffer[:proc.ImageName.Length/2], proc.UniqueProcessId))
 
         for proc in proclist:
