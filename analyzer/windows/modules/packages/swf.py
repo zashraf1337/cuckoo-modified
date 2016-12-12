@@ -15,4 +15,4 @@ class SWF(Package):
     """
 
     def start(self, path):
-        return self.execute("bin/flashplayer.exe", path, path)
+        return self.execute("c:\\fp18_324_win_sa.exe", path, path)
