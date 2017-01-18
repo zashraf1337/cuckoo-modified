@@ -49,11 +49,11 @@ def create_subscription(topic_name, subscription_name):
     print('Subscription {} created on topic {}.'.format(
         subscription.name, topic.name))
 
-def receive_message(topicName, subscriptionName):
+def receive_message(topic_name, subscription_name):
     """Receives a message from a pull subscription."""
     pubsub_client = pubsub.Client()
-    topic = pubsub_client.topic(topicName)
-    subscription = topic.subscription(subscriptionName)
+    topic = pubsub_client.topic(topic_name)
+    subscription = topic.subscription(subscription_name)
 
     # Change return_immediately=False to block until messages are
     # received.
@@ -65,7 +65,7 @@ def receive_message(topicName, subscriptionName):
     # redeliver the message.
     if results:
         for ack_id, message in results:
-           print('processing message: {}:'.format(message.message_id))
+           print('processing message: {}: {}'.format(message.message_id, ack_id))
            subscription.acknowledge(ack_id)
            process_message(message.message_id, json.loads(base64.decodestring(message.data)))
            print('     done processing message: {}:'.format(message.message_id))

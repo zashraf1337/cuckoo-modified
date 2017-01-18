@@ -24,8 +24,8 @@ class PublishResultToGooglePubSub(Report):
  
 
         try:
-           completed_msg_id = results["info"]["options"].get("pubsub_msg_id", None)
-           if (completed_msg_id != None):
+           processed_msg_id = results["info"]["options"].get("pubsub_msg_id", None)
+           if (processed_msg_id != None):
               pubsub_client = pubsub.Client()
 
               sample_sha256 = results["target"]["file"]["sha256"]
@@ -38,7 +38,7 @@ class PublishResultToGooglePubSub(Report):
 
               #publish completion message to topic
               topic = pubsub_client.topic(self.options['pubsub_topic'])
-              message_id = topic.publish(u'Detonation complete. Results uploaded for:', completed_msg_id = completed_msg_id)
+              message_id = topic.publish(u'Detonation complete. Results uploaded for:', processed_msg_id = processed_msg_id, sha256 = sample_sha256)
 
               log.info(u"Message published to pubsub with message_id %s" % message_id)
         except (UnicodeError, TypeError, IOError) as e:
