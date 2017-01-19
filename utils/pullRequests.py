@@ -65,7 +65,7 @@ def receive_message(topic_name, subscription_name):
     # redeliver the message.
     if results:
         for ack_id, message in results:
-           print('processing message: {}: {}'.format(message.message_id, ack_id))
+           print('processing message: {}'.format(message.message_id))
            subscription.acknowledge(ack_id)
            process_message(message.message_id, json.loads(base64.decodestring(message.data)))
            print('     done processing message: {}:'.format(message.message_id))
