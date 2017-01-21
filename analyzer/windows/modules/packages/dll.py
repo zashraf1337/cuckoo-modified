@@ -4,8 +4,13 @@
 
 import os
 import shutil
+import sys
 
 from lib.common.abstracts import Package
+import logging
+
+log = logging.getLogger(__name__)
+log.info("dll package initialized")
 
 class Dll(Package):
     """DLL analysis package."""
@@ -14,7 +19,10 @@ class Dll(Package):
     ]
 
     def start(self, path):
+      try:
+        log.info("starting dll")
         rundll32 = self.get_path("rundll32.exe")
+        log.info("path 2 : rundll '%s'" % (rundll32))
         function = self.options.get("function", "DllMain")
         arguments = self.options.get("arguments")
         loadername = self.options.get("loader")
@@ -24,12 +32,15 @@ class Dll(Package):
         # If the file doesn't have the proper .dll extension force it
         # and rename it. This is needed for rundll32 to execute correctly.
         # See ticket #354 for details.
+        log.info("path 2 : '%s'" % (ext))
         if ext != ".dll":
             new_path = path + ".dll"
             os.rename(path, new_path)
             path = new_path
 
         args = "\"{0}\",{1}".format(path, function)
+        log.info("path 2 '%s' fund: '%s'" % (path, function))
+ 
         if arguments:
             args += " {0}".format(arguments)
 
@@ -37,5 +48,11 @@ class Dll(Package):
             newname = os.path.join(os.path.dirname(rundll32), loadername)
             shutil.copy(rundll32, newname)
             rundll32 = newname
-
+        log.info("path 3 '%s' fund: '%s'" % (rundll32, function))
         return self.execute(rundll32, args, path)
+      except Exception as e:
+        log.info(sys.exc_info()[0])  
+        log.info(e)
+        log.info(e.__dict__)  
+        log.info(e.__class__)  
+

@@ -82,6 +82,16 @@ def process_message(msg_id, json_decode):
       if entry["info"]["file"]["fileType"] == "Document":
          copyFileFromCloud(filehash, dst)
          os.system("./submit.py  --package doc --machine Win7 --options=pubsub_msg_id=" + msg_id + " " +  dst + "/" + filehash)
+      elif entry["info"]["file"]["fileSubype"] == "Dll"  and (entry["info"]["file"]["fileType"] == "PE"): 
+         copyFileFromCloud(filehash, dst)
+         os.system("sample=" + dst + "/" + filehash + ";for i in `pedump -E $sample | grep -E '^ *[0-9]' | sed -e 's/  */ /g' | cut -f 4 -d ' '`;do ./submit.py  --machine Win7 --package dll --options function=$i,pubsub_msg_id=" + msg_id + " $sample;done")
+         # run with cuckoo's own determination of using approporate package such as regserver
+         os.system("sample=" + dst + "/" + filehash + ";./submit.py  --options pubsub_msg_id=" + msg_id + " $sample;done")
+      elif entry["info"]["file"]["fileSubype"] == "Dll"  and (entry["info"]["file"]["fileType"] == "PE+"): 
+         copyFileFromCloud(filehash, dst)
+         os.system("sample=" + dst + "/" + filehash + ";for i in `pedump -E $sample | grep -E '^ *[0-9]' | sed -e 's/  */ /g' | cut -f 4 -d ' '`;do ./submit.py  --machine win7x64 --package dll --options function=$i,pubsub_msg_id=" + msg_id + " $sample;done")
+         # run with cuckoo's own determination of using approporate package such as regserver
+         os.system("sample=" + dst + "/" + filehash + ";./submit.py  --options pubsub_msg_id=" + msg_id + " $sample;done")
       elif entry["info"]["file"]["fileType"] == "blah 2":
         print "Detonating ..."
       else:

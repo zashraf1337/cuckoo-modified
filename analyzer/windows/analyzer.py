@@ -973,6 +973,14 @@ class Analyzer:
         # Start analysis package. If for any reason, the execution of the
         # analysis package fails, we have to abort the analysis.
         try:
+            log.warning("starting pack target %s",
+                         self.target)
+            log.warning("pack %s",
+                         pack.__dict__)
+            log.warning("pack class %s",
+                         pack.__class__)
+            log.warning("pack dir %s",
+                         dir(pack))
             pids = pack.start(self.target)
         except NotImplementedError:
             raise CuckooError("The package \"{0}\" doesn't contain a run "
