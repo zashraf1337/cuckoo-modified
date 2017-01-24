@@ -3,3 +3,7 @@
 224.0.0.252
 microsoft.com/
 microsoft.com$
+download.windowsupdate.com/
+download.windowsupdate.com$
+
+

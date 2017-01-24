@@ -31,13 +31,13 @@ class PublishResultToGooglePubSub(Report):
               sample_sha256 = results["target"]["file"]["sha256"]
               analysis_path = self.analysis_path
               os.system("python utils/networkIOCFromCuckooReport.py " + analysis_path + "/reports/report.json | grep -vf utils/networkWhiteList.txt | sed -e \"s/\./\.\./g\" > " + self.analysis_path + "/networkIOC.txt")
-              resullts_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/"
 
               if "function" in results["info"]["options"]:
                  results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/"
-                 os.system("gsutil cp -r " + analysis_path + "/* gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/")
+                 os.system("gsutil -m cp -r " + analysis_path + "/* gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/")
               else:
-                 os.system("gsutil cp -r " + analysis_path + "/* gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/")
+                 os.system("gsutil -m cp -r " + analysis_path + "/* gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/")
+                 results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/"
 
 
 
@@ -46,6 +46,6 @@ class PublishResultToGooglePubSub(Report):
               topic = pubsub_client.topic(self.options['pubsub_topic'])
               message_id = topic.publish(u'Detonation complete. Results uploaded.', upload_folder = results_folder, processed_msg_id = processed_msg_id, sha256 = sample_sha256)
 
-              log.info(u"Message published to pubsub with message_id %s at: %s" % (message_id, resullts_folder))
+              log.info(u"Message published to pubsub with message_id %s at: %s" % (message_id, results_folder))
         except (UnicodeError, TypeError, IOError) as e:
            raise CuckooReportError("Failed to publish results: %s" % e)
