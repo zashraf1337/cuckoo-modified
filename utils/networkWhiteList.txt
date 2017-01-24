@@ -5,5 +5,5 @@ microsoft.com/
 microsoft.com$
 download.windowsupdate.com/
 download.windowsupdate.com$
-
-
+google.com/
+google.com$
