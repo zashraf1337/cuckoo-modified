@@ -6,7 +6,7 @@ import os
 import json
 import logging
 from google.cloud import pubsub
-#import pdb
+from urllib import quote
 
 from lib.cuckoo.common.abstracts import Report
 from lib.cuckoo.common.exceptions import CuckooReportError
@@ -34,9 +34,9 @@ class PublishResultToGooglePubSub(Report):
 
               if "function" in results["info"]["options"]:
                  results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/"
-                 os.system("gsutil -m cp -r " + analysis_path + "/* gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/")
+                 os.system("gsutil -m cp -r " + analysis_path + "/* gs://" + quote("a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/"))
               else:
-                 os.system("gsutil -m cp -r " + analysis_path + "/* gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/")
+                 os.system("gsutil -m cp -r " + analysis_path + "/* gs://" +  quote("a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/"))
                  results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/"
 
 

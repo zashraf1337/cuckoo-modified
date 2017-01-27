@@ -32,14 +32,12 @@ class Dll(Package):
         # If the file doesn't have the proper .dll extension force it
         # and rename it. This is needed for rundll32 to execute correctly.
         # See ticket #354 for details.
-        log.info("path 2 : '%s'" % (ext))
         if ext != ".dll":
             new_path = path + ".dll"
             os.rename(path, new_path)
             path = new_path
 
         args = "\"{0}\",{1}".format(path, function)
-        log.info("path 2 '%s' fund: '%s'" % (path, function))
  
         if arguments:
             args += " {0}".format(arguments)
@@ -48,7 +46,6 @@ class Dll(Package):
             newname = os.path.join(os.path.dirname(rundll32), loadername)
             shutil.copy(rundll32, newname)
             rundll32 = newname
-        log.info("path 3 '%s' fund: '%s'" % (rundll32, function))
         return self.execute(rundll32, args, path)
       except Exception as e:
         log.info(sys.exc_info()[0])  
