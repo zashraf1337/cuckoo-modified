@@ -3,7 +3,10 @@
 224.0.0.252
 microsoft.com/
 microsoft.com$
-download.windowsupdate.com/
-download.windowsupdate.com$
+windowsupdate.com/
+windowsupdate.com$
 google.com/
 google.com$
+auth.immunityinc.com/
+auth.immunityinc.com$
+debugger.immunityinc.com,POST
