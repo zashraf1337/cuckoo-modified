@@ -4,6 +4,7 @@ import base64
 import sys
 import json
 import os
+import traceback
 from google.cloud import pubsub
 
 PUBSUB_TOPIC="zoombox-requests"
