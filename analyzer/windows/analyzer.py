@@ -234,6 +234,7 @@ def dump_files():
     """Dump all the dropped files."""
     for file_path in FILES_LIST:
         dump_file(file_path)
+    log.info("fle dumping done")
 
 class PipeHandler(Thread):
     """Pipe Handler.
