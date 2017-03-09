@@ -9,6 +9,7 @@ import sys
 from lib.common.abstracts import Package
 import logging
 from lib.common.defines import ADVAPI32
+import traceback
 
 log = logging.getLogger(__name__)
 
@@ -16,7 +17,12 @@ class Service(Package):
     """Service analysis package."""
 
     def start(self, path):
+      PATHS = [
+		("SystemRoot", "system32", "sc.exe"),
+      ]
+
       try:
+        sc = self.get_path("sc.exe")
         servicename = self.options.get("servicename", "zOOmService")
         servicedesc = self.options.get("servicedesc", "zOOmService (inc.)")
         arguments = self.options.get("arguments")
@@ -39,16 +45,14 @@ class Service(Package):
 		0x00000010, # SERVICE_WIN32_OWN_PROCESS,
 		0x00000002, # SERVICE_AUTO_START,
 		0x00000001, # SERVICE_ERROR_NORMAL,
-                binPath
-        )
-        ADVAPI32.StartServiceA(serv_handle)
- 
-
+                binPath, None, None, None, None, None)
     	ADVAPI32.CloseServiceHandle(sc_handle)
-        return
+        return self.execute(sc, "start", servicename, arguments)
+
+
       except Exception as e:
         log.info(sys.exc_info()[0])  
         log.info(e)
         log.info(e.__dict__)  
         log.info(e.__class__)  
-
+        log.exception(e)
