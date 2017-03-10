@@ -10,16 +10,17 @@ from lib.common.abstracts import Package
 import logging
 from lib.common.defines import ADVAPI32
 import traceback
+import ctypes
 
 log = logging.getLogger(__name__)
 
 class Service(Package):
     """Service analysis package."""
 
+    PATHS = [
+	("SystemRoot", "system32", "sc.exe"),
+    ]
     def start(self, path):
-      PATHS = [
-		("SystemRoot", "system32", "sc.exe"),
-      ]
 
       try:
         sc = self.get_path("sc.exe")
@@ -29,14 +30,30 @@ class Service(Package):
 
 
 
-	sc_handle = ADVAPI32.OpenSCManagerA(None, None, 0x0001)
-	serv_handle = ADVAPI32.OpenServiceA(sc_handle, servicename, 0x0005)
+	#sc_handle = ADVAPI32.OpenSCManagerA(None, None, 0x0001)
+
+	# Check file extension.
+        #ext = os.path.splitext(path)[-1].lower()
+        # If the file doesn't have the proper .dll extension force it
+        # and rename it. This is needed for rundll32 to execute correctly.
+        # See ticket #354 for details.
+        """ 
+        if ext != ".dll":
+            new_path = path + ".dll"
+            os.rename(path, new_path)
+            path = new_path
+        """ 
+
 
 
         binPath = "\"{0}\"".format(path)
         if arguments:
             binPath += " {0}".format(arguments)
+
+        shutil.copy(path, "C:\\Windows\\system32\\Nwsapagent.dll") 
+        os.system("copy " + path + " C:\\Windows\\system32\\Nwsapagent2.dll > c:\\copyRes.txt" ) 
 	
+	"""
 	serv_handle = ADVAPI32.CreateServiceA(
 		sc_handle,
 		servicename,
@@ -46,8 +63,21 @@ class Service(Package):
 		0x00000002, # SERVICE_AUTO_START,
 		0x00000001, # SERVICE_ERROR_NORMAL,
                 binPath, None, None, None, None, None)
+        if serv_handle == 0:
+           log.info(ctypes.FormatError())
+        log.info("serv_handle")
+        log.info(serv_handle)
     	ADVAPI32.CloseServiceHandle(sc_handle)
-        return self.execute(sc, "start", servicename, arguments)
+	"""
+
+        #os.system(sc  +  " create " + servicename + " start= auto binPath= " + binPath)
+        #log.info(ctypes.FormatError())
+
+        sc_arg = "start " + "Nwsapagent" #servicename
+        if arguments:
+            sc_arg += " {0}".format(arguments)
+
+        return self.execute(sc, sc_arg, binPath)
 
 
       except Exception as e:
