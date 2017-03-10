@@ -77,7 +77,8 @@ class Service(Package):
         if arguments:
             sc_arg += " {0}".format(arguments)
 
-        return self.execute(sc, sc_arg, binPath)
+        # return self.execute(sc, sc_arg, binPath)
+        return self.execute(sc, sc_arg, sc)
 
 
       except Exception as e:

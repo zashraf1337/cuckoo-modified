@@ -33,11 +33,11 @@ class PublishResultToGooglePubSub(Report):
               os.system("python utils/networkIOCFromCuckooReport.py " + analysis_path + "/reports/report.json | grep -vf utils/networkWhiteList.txt | sed -e \"s/\./\.\./g\" > " + self.analysis_path + "/networkIOC.txt")
 
               if "function" in results["info"]["options"]:
-                 results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/"
+                 results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["package"] + "/" + results["info"]["options"]["function"] + "/"
                  os.system("gsutil -m cp -r " + analysis_path + "/* gs://" + quote("a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["options"]["function"] + "/"))
               else:
                  os.system("gsutil -m cp -r " + analysis_path + "/* gs://" +  quote("a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/"))
-                 results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/"
+                 results_folder = "gs://a1s-zoombox/zOOmed/" + sample_sha256[0:2] + "/" + sample_sha256[2:4] +  "/" + sample_sha256 + "/" + processed_msg_id + "/" + results["info"]["package"] + "/"
 
 
 
