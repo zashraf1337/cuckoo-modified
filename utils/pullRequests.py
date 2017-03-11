@@ -88,8 +88,10 @@ def process_message(msg_id, json_decode):
             os.system("sample=" + dst + "/" + filehash + ";for i in `pedump -E $sample | grep -E '^ *[0-9]' | sed -e 's/  */ /g' | cut -f 4 -d ' '`;do ./submit.py  --machine Win7 --package dll --options function=$i,pubsub_msg_id=" + msg_id + " $sample;done")
             # run with cuckoo's own determination of using approporate package such as regserver
             os.system("sample=" + dst + "/" + filehash + ";./submit.py  --machine Win7 --options pubsub_msg_id=" + msg_id + " $sample;done")
-            if os.system('pedump -E $sample | grep -E "^ *[0-9]" | sed -e "s/  */ /g" | cut -f 4 -d " " | grep ServiceMain') == 0:
-               os.system('./submit.py  --machine Win7 --package service --options pubsub_msg_id=' + msg_id + " $sample")
+
+            grepForServiceMain = os.system("sample=" + dst + "/" + filehash + ';pedump -E $sample | grep -E "^ *[0-9]" | sed -e "s/  */ /g" | cut -f 4 -d " "  | grep "ServiceMain"') 
+            if grepForServiceMain == 0:
+               os.system("sample=" + dst + "/" + filehash + ';./submit.py  --machine Win7 --package service --options pubsub_msg_id=' + msg_id + " $sample")
               
          elif entry["info"]["file"]["fileSubype"] == "Dll"  and entry["info"]["file"]["fileType"] == "PE+": 
             copyFileFromCloud(filehash, dst)
