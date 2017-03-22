@@ -34,7 +34,6 @@ cuckoo.v12.suo
 data/yara/index_*.yar
 UpgradeLog.htm
 
-analyzer/windows/dll/*
 
 api.conf
 auxiliary.conf
