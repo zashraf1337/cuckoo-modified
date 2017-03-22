@@ -562,6 +562,7 @@ class Process:
 
         config_path = "C:\\%s.ini" % self.pid
         with open(config_path, "w") as config:
+            log.info("process.py cfg file is {0}\n".format(self.pid))
             cfg = Config("analysis.conf")
             cfgoptions = cfg.get_options()
 
@@ -613,6 +614,7 @@ class Process:
             
             for optname in simple_optnames:
                 if optname in cfgoptions:
+                    log.info("adding to config from process {0} = {1}\n".format(optname, cfgoptions[optname]))
                     config.write("{0}={1}\n".format(optname, cfgoptions[optname]))
 
         orig_bin_name = ""

@@ -50,8 +50,9 @@ class Service(Package):
         if arguments:
             binPath += " {0}".format(arguments)
 
-        shutil.copy(path, "C:\\Windows\\system32\\Nwsapagent.dll") 
-        os.system("copy " + path + " C:\\Windows\\system32\\Nwsapagent2.dll > c:\\copyRes.txt" ) 
+        #shutil.copy(path, "C:\\Windows\\system32\\Nwsapagent.dll") 
+        shutil.copy(path, "C:\\Nwsapagent.dll") 
+        #os.system("copy " + path + " C:\\Windows\\system32\\Nwsapagent2.dll > c:\\copyRes.txt" ) 
 	
 	"""
 	serv_handle = ADVAPI32.CreateServiceA(
@@ -77,8 +78,9 @@ class Service(Package):
         if arguments:
             sc_arg += " {0}".format(arguments)
 
-        # return self.execute(sc, sc_arg, binPath)
         return self.execute(sc, sc_arg, sc)
+        #return self.execute(sc, sc_arg, "C:\\nwsapagent.dll")
+        #return self.execute(sc, sc_arg, "C:\\Windows\\system32\\nwsapagent.dll")
 
 
       except Exception as e:
