@@ -614,7 +614,6 @@ class Process:
             
             for optname in simple_optnames:
                 if optname in cfgoptions:
-                    log.info("adding to config from process {0} = {1}\n".format(optname, cfgoptions[optname]))
                     config.write("{0}={1}\n".format(optname, cfgoptions[optname]))
 
         orig_bin_name = ""

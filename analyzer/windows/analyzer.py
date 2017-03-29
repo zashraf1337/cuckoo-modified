@@ -600,7 +600,11 @@ class PipeHandler(Thread):
                                 # if it's a URL analysis, provide the URL to all processes as
                                 # the "interest" -- this will allow cuckoomon to see in the
                                 # child browser process that a URL analysis is occurring
-                                if self.config.category == "file" or NUM_INJECTED > 1:
+                                if self.config.package == "service" and NUM_INJECTED > 1 and "service-dll-of-interest" in self.options:
+                                # this helps with getting api calls return address pointed to calls in this dll as opposed to something else
+                                # this should be set to dll for that service or the exe for the service  
+                                    interest = self.options.get("service-dll-of-interest")
+                                elif self.config.category == "file" or NUM_INJECTED > 1:
                                     interest = filepath
                                 else:
                                     interest = self.config.target

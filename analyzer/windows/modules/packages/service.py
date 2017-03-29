@@ -49,9 +49,8 @@ class Service(Package):
         binPath = "\"{0}\"".format(path)
         if arguments:
             binPath += " {0}".format(arguments)
-
-        #shutil.copy(path, "C:\\Windows\\system32\\Nwsapagent.dll") 
-        shutil.copy(path, "C:\\Nwsapagent.dll") 
+        # we expect the service to be already defined in the guest VM as using ServiceDll pointed to by self.options["service-dll-of-interest"]
+        shutil.copy(path, self.options["service-dll-of-interest"]) 
         #os.system("copy " + path + " C:\\Windows\\system32\\Nwsapagent2.dll > c:\\copyRes.txt" ) 
 	
 	"""
@@ -79,8 +78,6 @@ class Service(Package):
             sc_arg += " {0}".format(arguments)
 
         return self.execute(sc, sc_arg, sc)
-        #return self.execute(sc, sc_arg, "C:\\nwsapagent.dll")
-        #return self.execute(sc, sc_arg, "C:\\Windows\\system32\\nwsapagent.dll")
 
 
       except Exception as e:

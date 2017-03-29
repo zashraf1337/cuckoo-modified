@@ -224,6 +224,12 @@ class AnalysisManager(threading.Thread):
                 except:
                     pass
 
+        if self.task.package == "service":
+           if "service-dll-of-interest" not in self.task.options:
+              self.task.options["service-dll-of-interest"] = "c:\\windows\\system32\\nwsapagent.dll"
+
+
+
         return options
 
     def launch_analysis(self):
