@@ -194,13 +194,19 @@ class AnalysisManager(threading.Thread):
         options["category"] = self.task.category
         options["target"] = self.task.target
         options["package"] = self.task.package
+
+
+        if self.task.package == "service":
+           if "service-dll-of-interest" not in self.task.options:
+              if self.task.options == "":
+                 self.task.options = "service-dll-of-interest=c:\\windows\\system32\\nwsapagent.dll"
+              else:
+                 self.task.options += ",service-dll-of-interest=c:\\windows\\system32\\nwsapagent.dll"
         options["options"] = self.task.options
+
         options["enforce_timeout"] = self.task.enforce_timeout
         options["clock"] = self.task.clock
         options["terminate_processes"] = self.cfg.cuckoo.terminate_processes
-        #options["full-logs"] = '0' if "full-logs" not in self.task.options else '1'
-        #log.info("full-logs:  {0}: enforce: {1}".format(
-        #         options["full-logs"], options["enforce_timeout"] ))
 
         if not self.task.timeout or self.task.timeout == 0:
             options["timeout"] = self.cfg.timeouts.default
@@ -224,9 +230,6 @@ class AnalysisManager(threading.Thread):
                 except:
                     pass
 
-        if self.task.package == "service":
-           if "service-dll-of-interest" not in self.task.options:
-              self.task.options["service-dll-of-interest"] = "c:\\windows\\system32\\nwsapagent.dll"
 
 
 
