@@ -250,7 +250,7 @@ class Human(Auxiliary, Thread):
             USER32.EnumWindows(EnumWindowsProc(getwindowlist), 0)
 
             while self.do_run:
-                if officedoc and (seconds % 30) == 0 and not CLOSED_OFFICE:
+                if officedoc and (seconds % 60) == 0 and not CLOSED_OFFICE:
                     USER32.EnumWindows(EnumWindowsProc(get_office_window), 0)
 
                 # only move the mouse 50% of the time, as malware can choose to act on an "idle" system just as it can on an "active" system
