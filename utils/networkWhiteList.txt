@@ -10,3 +10,7 @@ google.com$
 auth.immunityinc.com/
 auth.immunityinc.com$
 debugger.immunityinc.com,POST
+adobe.com/
+adobe.com$
+macromedia.com/
+macromedia.com$
