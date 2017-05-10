@@ -16,3 +16,5 @@ adobe.com/
 adobe.com$
 macromedia.com/
 macromedia.com$
+time.windows.com/
+time.windows.com$
