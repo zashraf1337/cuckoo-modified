@@ -141,6 +141,8 @@ def foreach_child(hwnd, lparam):
                     USER32.SendMessageW(hwnd, BM_CLICK, 0, 0)
                     # only stop searching when we click a button
                     return False
+                else:
+                    log.info("Found button \"%s\", NOT clicking it" % text.value)
     return True
 
 
