@@ -17,3 +17,7 @@ time.windows.com/
 time.windows.com$
 Name 1.56.168.192.in-addr.arpa
 dns.msftncsi.com
+crl.microsoft.com/
+go.microsoft.com/
+microsoft.com/pki/crl/products/WinPCA.crl
+
